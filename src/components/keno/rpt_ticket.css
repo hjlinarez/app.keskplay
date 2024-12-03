@@ -1,0 +1,24 @@
+body {
+    margin:0;
+    padding:0
+  }
+
+
+p{
+    color: black;
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 0.8em;    
+}
+
+
+@media print { 
+  @page { 
+    margin: 0.2cm; /* Configura los márgenes según tus necesidades */ 
+  } 
+  body { 
+    font-size: 10pt; /* Opcional: ajusta el tamaño de la fuente */
+    font-weight: bold;
+  }
+}

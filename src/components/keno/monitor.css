@@ -1,0 +1,414 @@
+body {
+    background-color: #004516;        
+    margin: 0;    
+}
+
+
+#principal {
+    width: 1360px;
+    height: 920px;
+    border: 0px solid #ff0;
+    margin: auto;
+
+    position: fixed;	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+    
+}
+
+#encabezado {
+    width: 100%;
+    height: 75px;
+    border: 0px solid red;
+    margin: auto
+}
+
+#izquierdo {
+    width: 816px;
+    height: 690px;
+    border: 0 solid #fff;
+    padding: 5px
+}
+
+#derecho {
+    width: 525px;
+    height: 690px;
+    border: 0 solid #ff0;
+    display: inline-block;
+    margin: 0
+}
+
+.video {
+    margin-bottom: 15px
+}
+
+#tabla_80 {
+    width: 95%;
+    border: 0 solid green
+}
+
+.table_80_1 {
+    background-color: #529158;
+    border: 1px solid #fff0;
+    font-size: 33px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    width: 78px;
+    height: 1.75em;
+    float: left;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    border-radius: 2px;
+    line-height: 61px
+}
+
+.table_80_1_marcado {
+    background-color: #fdd442;
+    border: 1px solid black;
+    font-size: 33px;
+    font-weight: 700;
+    text-align: center;
+    color: #830c02;
+    width: 78px;
+    height: 1.75em;
+    float: left;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    border-radius: 5px;
+    line-height: 61px
+}
+
+.bola {
+    width: 63px;
+    height: 63px;
+    background-color: #fdd442;
+    border: 0px solid black;
+    border-radius: 50%;
+    margin-top: 5px;
+    margin-left: 2px;
+    float: left;
+    font-size: 2em;
+    color: #830c02;
+    text-align: center;
+    font-weight: 700;
+    line-height: 63px
+}
+
+#leyenda {
+    margin-top: 5px;
+    background-color: #dbdbdb;
+    color: #000;
+    border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px
+}
+
+#partida {
+    background-color: #fdd448;
+    border-radius: 10px;
+    text-align: center;
+    height: 150px;
+    line-height: 150px
+}
+
+.bola_resultado {
+    font-size: 0.9em;
+    font-weight: bold;
+    border: 0.05em solid #830c02;
+    color: #830c02;
+    background-color: #fdd448;
+    border-radius: 50%;
+    padding: 0px;  
+    margin-right:0.2em;  
+    width:22px;
+    text-align: center;
+    float:left;
+}
+
+
+
+#videos {
+    height: 300px;   
+    border-radius: 15px
+
+}
+
+
+
+
+
+#div_segundos
+{
+    font-size: 3.5em;
+    
+    
+    
+    font-weight: bold;
+}
+
+#idsorteo
+{
+    font-size: 1.5em;
+    
+    
+    
+    font-weight: bold;
+}
+
+
+
+.jackpot_pendiente{
+    
+    
+    background: rgb(212,183,62);
+    background: radial-gradient(circle, rgba(212,183,62,1) 2%, rgba(235,236,0,1) 77%);
+    background: url('./js/fn_jackpot.ong');
+
+
+    border: 2px solid green;
+    font-size: 2em;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #fdd442;
+}
+
+.jackpot_pendiente > #title{
+    color:black;
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+.jackpot_pendiente > #monto_jackpot{
+    
+    margin-top: 0px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+}
+
+
+
+.jackpot_ganador
+{
+    background: rgb(215,20,11);
+    background: linear-gradient(90deg, rgba(215,20,11,1) 0%, rgba(166,27,27,1) 100%, rgba(0,212,255,1) 100%);
+    color: #FFD700;
+    font-size: 2em;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+    border: 1px solid yellow;
+
+    animation-name: parpadeo;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+
+
+
+
+  @-moz-keyframes parpadeo{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+  
+  @-webkit-keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+     100% { opacity: 1.0; }
+  }
+  
+  @keyframes parpadeo {  
+    0% { opacity: 1.0; }
+     50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+  }
+
+
+  .capa_coeficiente {
+    
+}
+
+
+  
+
+  .title_mini_jackpot{
+    color: #830c02;
+    padding: 0px;
+    margin: 0px;
+    float: fixed;
+    
+  }
+
+  .content_jackpot{
+    padding-top: 85px;
+    color: chartreuse;
+  }
+
+  .header_keno{
+    border: 0px solid yellow;
+    width: 1920px;
+    height: auto;
+    margin: auto 0;
+    /*background: no-repeat center/100% url('./header_keno.png') ;*/
+  }
+
+  #mini_jackpot, #super_jackpot, #mega_jackpot{
+    border: 0px solid yellow;
+  }
+
+  .cerrando_apuestas
+{
+    background-color: rgb(0,0,0, 1);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	-webkit-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+	z-index: 10000;
+    color: yellow;
+    margin: 0 auto;
+    font-size: 8em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cerrando_apuestas > form
+{
+    font-size: 1em;
+}
+
+#modalLogin{
+    z-index: 10001;
+}
+
+
+
+.jackpot_ganador
+{
+    background: rgba(0, 0, 0, 0.1);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	-webkit-transition: all 1s ease-in ;
+	-o-transition: all 1s ease-in;
+	transition: all 1s ease-in;
+	z-index: 10000;
+    color: yellow;
+    margin: 0 auto;
+    font-size: 8em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.jackpot_pendiente
+{
+    background-color: rgb(0,0,0, 0);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	-webkit-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+	z-index: 10000;
+    color: yellow;
+    margin: 0 auto;
+    font-size: 8em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+
+.jackpot_ganador_new
+{
+	animation: zoom 1s infinite;
+    
+}
+
+@keyframes zoom {
+    0% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.8);
+    }
+  }
+
+  
+
+#img_jackpot{
+    width: 100%;
+    height: 180px;
+    margin-top: 6em;        
+    display: none;
+  }
+
+
+
+#img_factores{
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 4px;
+    width: 100%;
+    height: 360px;    
+    display: none;
+  }
+
+
+
+
+  .fade-out {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .fade-out.hidden {
+        opacity: 0;
+        transform: translateY(0px); /* Movimiento hacia arriba */
+    }
+
+
+
+.card-jackpot{
+    border: 0.3em solid #fdd442;
+
+    }
+
+    
+.card-jackpot > .header-jackpot{
+    color: #004516;
+    background-color:#fdd442;
+    font-size: 1.5em;
+}
+
+.card-jackpot > .body-jackpot{
+    color: white;
+    background-color:#004516;            
+    padding: 0.1em;
+
+}
