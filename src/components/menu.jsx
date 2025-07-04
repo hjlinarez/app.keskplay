@@ -11,6 +11,7 @@ function menu({
               FormLogin,
               cerrarSession,
               resumenVenta,
+              configuracion,
               listAnular,
               listPagar,
               ultimasjugadas,
@@ -123,10 +124,13 @@ function menu({
 
                 <li>
                   <a className="dropdown-item" href="#">
-                    <i className="fa-solid fa-users-gear"></i> Perfil del
-                    Usuario
+                    <i className="fa-solid fa-users-gear"></i> Perfil delUsuario
                   </a>
                 </li>
+
+                
+
+                
 
                 <li>
                   <a

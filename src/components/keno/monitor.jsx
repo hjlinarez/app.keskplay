@@ -5,14 +5,24 @@ import { mostrar_sorteo } from './js/monitor.js'
 import  Factores from './factores.png'
 import  Jackpot from './jackpot.png'
 import Login from './login.jsx'
-
-
-
-
+import Footer from "../footer";
 
 import  './monitor.css'
 
+import fondoImagen from './img/fondo.jpg';
+
 function Monitor({ urlApi }) {
+
+    useEffect(() => {
+        document.body.style.backgroundImage = `url(${fondoImagen})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundPosition = 'center';
+    
+        return () => {
+          document.body.style.backgroundImage = '';
+        };
+      }, []);
    
     if (localStorage.getItem('zoom')){    
         document.body.style.zoom = localStorage.getItem('zoom');
@@ -20,31 +30,31 @@ function Monitor({ urlApi }) {
     else{
         localStorage.setItem('zoom', 1);
     }  
-
     const [zoom, setZoom] = useState(localStorage.getItem('zoom'));
-    
     const [jackpot, setJackpot] = useState({mini:0, super:0, mega:0})
 
     const view_jackpot = ()=>{
 
         let sorteo = document.querySelector("#idsorteo").innerHTML;
         let userid = localStorage.getItem("userId");
-
         
-
-        fetch('https://api.keskplay.com/api/keno/jackpot/'+userid+'/'+sorteo)
-        .then(response => response.json())        
-        .then((response) => {                
-                                //console.log(response)       
-                                if (response)
-                                {                            
-                                    setJackpot({
-                                                    mini:  response.mini, 
-                                                    super: response.super, 
-                                                    mega:  response.mega
-                                                })
-                                }
-                                })    
+        if (userid > 0 && sorteo > 0)
+        {
+            fetch('https://api.keskplay.com/api/keno/jackpot/'+userid+'/'+sorteo)
+            .then(response => response.json())        
+            .then((response) => {                
+                                    //console.log(response)       
+                                    if (response)
+                                    {                            
+                                        setJackpot({
+                                                        mini:  response.mini, 
+                                                        super: response.super, 
+                                                        mega:  response.mega
+                                                    })
+                                    }
+                                    })    
+        }
+        
 
         
     }
@@ -79,18 +89,58 @@ function Monitor({ urlApi }) {
 
     },[])
 
+
+
+    useEffect(() => { 
+        // Definir la función de consulta 
+        const fetchData = async () => 
+            { 
+                let sorteo = document.querySelector("#idsorteo").innerHTML;
+                let userid = localStorage.getItem("userId");
+                
+                try { 
+                        const response = await fetch('https://api.keskplay.com/api/keno/jackpot/'+userid+'/'+sorteo); 
+                        const result = await response.json(); 
+                        
+                            setJackpot({
+                                mini:  result.mini, 
+                                super: result.super, 
+                                mega:  result.mega
+                            })
+
+                } catch (error) { 
+                    setJackpot({
+                        mini:  jackpot.mini, 
+                        super: jackpot.super, 
+                        mega:  jackpot.mega
+                    })
+                   
+                } 
+            }; 
+            // Llamar a la función inmediatamente y luego cada 2 segundos \
+            fetchData(); const interval = setInterval(fetchData, 15000); 
+            // Limpiar el intervalo cuando el componente se desmonte 
+            return () => clearInterval(interval); 
+        },[]);
+
+
     useEffect(() => {
         if (userid > 0){
             mostrar_sorteo(userid);
-            setCerrandoApuestas(false);        
-            
-            const intervalo_tickets = setInterval(() => {                            
-                view_jackpot();
-            }, 3000);
-            return () => clearInterval(intervalo_tickets);
+            setCerrandoApuestas(false);                    
+            //const intervalo_tickets = setInterval(() => {view_jackpot();}, 10000);
+            //return () => clearInterval(intervalo_tickets);
         }  
        
     }, [userid]) 
+
+
+
+
+    const cerrarSession = ()=>{
+        setCerrandoApuestas(true);
+            $('#modalLogin').modal('show');
+    };
 
     
     return ( <>
@@ -101,6 +151,7 @@ function Monitor({ urlApi }) {
 
         <Login  setUserid = { setUserid } urlApi = { urlApi } />
             <input type="hidden" id="text_contador" name="text_contador"/>
+            
             <div className="row" id="principal">
 
                     <div className="row m-0 p-0">                        
@@ -264,26 +315,10 @@ function Monitor({ urlApi }) {
                     </div>
             </div>
 
+            <Footer/>
 
-            <nav className="navbar fixed-bottom navbar-expand-lg">
-                <div className="container-fluid">
-                    
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav text-end">
-                            <li className="nav-item">
-                            <button type="button" className="btn btn-sucess" onClick={ ()=> setZoom(Number(zoom) - 0.1) }><i className="fa-solid fa-magnifying-glass-minus"></i></button>
-                            </li>
-                            <li className="nav-item">
-                            <button type="button" className="btn btn-sucess" onClick={ ()=> setZoom(Number(zoom) + 0.1) }><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+
+           
 
 
 

@@ -1,0 +1,18 @@
+
+.principal-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    background-color: black;
+    color: white;
+    border: 0px solid white; /* Borde blanco */
+}
+
+.card-footer .btn {
+    width: 100%; /* Hace que el botón abarque todo el ancho del contenedor */
+  }
+
+
+
+  

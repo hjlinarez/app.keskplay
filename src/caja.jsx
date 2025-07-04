@@ -125,6 +125,7 @@ function caja({ urlApi }) {
     const [inputJugada, setInputJugada] = useState('');
 
     const [ btnPrint, setBtnPrint] = useState(true)
+    const [ btnRepeat, setBtnRepeat] = useState(true)
 
     //STATE DEL RESUMEN DE VENTA
     const [desde, setDesde] = useState(fechahoy("ENG"))
@@ -138,6 +139,17 @@ function caja({ urlApi }) {
 
     const [myticket, setMyticket] = useState(objetoticket);
     const [myticketConsulta, setMyticketConsulta] = useState(undefined);
+
+
+    const [infouser, setInfoUser] = useState({ 'name': '', 'email':'', 'login': ''});
+    
+    const configuracion = () => {
+
+        setInfoUser({ 'name': 'Hector Linarez', 'email':'hjlinarez@gmail.com', 'login': 'hjlinarez'})
+        $("#ConfiguracionModal").modal("show");
+
+      };
+
 
 
 
@@ -471,6 +483,8 @@ function caja({ urlApi }) {
       $("#ResumenVentaModal").modal("show");
     };
 
+
+    
 
     const MostrarResumenVenta = () =>{
     
@@ -1075,6 +1089,7 @@ function caja({ urlApi }) {
   const RepetirTicket = (id)=>{
 
         setBtnPrint(false);
+        setBtnRepeat(false);
         let userLocal = JSON.parse(localStorage.getItem("user"));
         let token = "Bearer " + userLocal.token;
         
@@ -1097,13 +1112,12 @@ function caja({ urlApi }) {
                 }
                 else {            
                     if (response.status){
-
-                        setBtnPrint(true);         
                         ultimasJugadas();                       
-                        
                         SetTicketPrintNew('ticket/'+response.idticket);
                         pagoInicio();
                         uploadTicket();
+                        setBtnPrint(true);     
+                        setBtnRepeat(true);
                     }
                     else {
                         //console.log(response);
@@ -1111,6 +1125,7 @@ function caja({ urlApi }) {
                         swal("Disculpe",response.message, "error");
                         //errorConexion();
                         setBtnPrint(true);
+                        setBtnRepeat(true);
                     }
                 }
                         
@@ -1123,6 +1138,9 @@ function caja({ urlApi }) {
 
 
   const Procesar = ()=>{
+
+
+    
 
     if (jugadas.length == 0){
         swal("Disculpe","No hay jugadas para procesar", "error")
@@ -1315,6 +1333,72 @@ function caja({ urlApi }) {
 
 
 
+        <div className="modal fade" id="ConfiguracionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="ConfiguracionModalpLabel" aria-hidden="true">
+            <div className="modal-dialog modal-lg modal-dialog-centered">
+                <div className="modal-content">
+                    <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="ConfiguracionModalpLabel">Configuracion</h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                    </div>
+                    <div className="modal-body">   
+                        <div className="row">
+                            <div className="col">
+                                <div className="card">
+                                    <div className="card-header">Usuario</div>
+                                    <div className="card-body">
+                                        <label htmlFor="">Caja</label>
+                                        <input type="text" value={ infouser.name } className='form-control'/>
+
+                                        <label htmlFor="">Email</label>
+                                        <input type="text" value={ infouser.email } className='form-control'/>
+
+                                        <label htmlFor="">Login</label>
+                                        <input type="text" value={ infouser.login } className='form-control'/>
+
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="col">
+                                <div className="card">
+                                    <div className="card-header">Keno</div>
+                                    <div className="card-body">
+                                        <form action="">
+                                            <label htmlFor="">Ubicacion de los Videos</label>
+                                            <select name="ubicacion" id="ubicacion" className="form-control">
+                                                <option value="">Servidor</option>
+                                                <option value="">Ruta local</option>
+                                            </select>
+
+                                            <label htmlFor="">Fuente del Ticket</label>
+                                            <select name="font_ticket" id="font_ticket" className="form-control">
+                                                <option value="8">8</option>
+                                                <option value="10">10</option>
+                                                <option value="12">12</option>
+                                                <option value="14">14</option>
+                                                <option value="16">16</option>
+                                                <option value="18">18</option>
+
+                                            </select>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>                                             
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <div className="modal fade" id="PagarTicketModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="PagarTicketModalpLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
@@ -1378,6 +1462,7 @@ function caja({ urlApi }) {
             FormLogin = { FormLogin } 
             cerrarSession = { cerrarSession }  
             resumenVenta = { resumenVenta } 
+            configuracion = { configuracion } 
             listAnular = { listAnular } 
             listPagar = { listPagar } 
             ultimasjugadas = { ultimasjugadas } 
@@ -1613,7 +1698,7 @@ function caja({ urlApi }) {
                                                         <button type="button" onClick = { () => anularTicket(valor.idticket) }  className={ status == 'Jugando' ? "btn btn-danger" : "btn btn-default disabled"}><i className="fa-solid fa-trash"></i></button>
                                                         
                                                         <button type="button" onClick = { () => pagarTicket(valor.idticket) }   className={ pendiente > 0 ? "btn btn-success" : "btn btn-default disabled" } ><i className="fa-solid fa-check"></i></button>                                                    
-                                                        <button type="button" onClick = { () => RepetirTicket(valor.idticket) } className="btn btn-primary"><i className="fa-solid fa-copy"></i></button>
+                                                        <button type="button" onClick = { () => RepetirTicket(valor.idticket) } className={ btnRepeat ? 'btn btn-primary' : 'btn btn-primary disabled' } ><i className="fa-solid fa-copy"></i></button>
                                                     
                                                     </div>
 

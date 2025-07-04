@@ -5,7 +5,18 @@ import FormatNumeric from './formatNumeric';
 function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
     let total_venta = 0;    
     let total_premios = 0;
+    let total_jackpot = 0;
     let total_ganancia = 0;
+
+    const formatoNumerico = (monto) => {
+
+        const decimals = 2;
+        const factor = Math.pow(10, decimals);
+        const valor = (Math.round(monto * factor) / factor).toLocaleString('es-ES', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+
+        return valor;
+
+    }
     
 
     const ResumenGeneral = (fecha)=>{
@@ -36,7 +47,7 @@ function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
                     if (response.message != 'Unauthenticated.') {
                         if (response.success){
                             
-                            let utilidad = response.data.venta - response.data.premios;
+                            let utilidad = response.data.venta - response.data.premios - response.data.jackpot;
 
 
                             setTicketPrint([
@@ -45,9 +56,10 @@ function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
                                 {'linea':'Caja: '+userLocal.name},
                                 {'linea':'Fecha: '+fecha},
                                 {'linea':'------------------------'},
-                                {'linea':'Venta: '+response.data.venta},
-                                {'linea':'Premios: '+response.data.premios},
-                                {'linea':'Utilidad: '+utilidad},
+                                {'linea':'Venta: '+formatoNumerico(response.data.venta)},
+                                {'linea':'Premios: '+formatoNumerico(response.data.premios)},
+                                {'linea':'JackPot: '+formatoNumerico(response.data.jackpot)},
+                                {'linea':'Utilidad: '+formatoNumerico(utilidad)},
                                 {'linea':'------------------------'}
                             ]);
 
@@ -73,6 +85,7 @@ function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
                         <th>Fecha</th>                    
                         <th className='text-end'>Venta</th>
                         <th className='text-end'>Premios</th>
+                        <th className='text-end'>Jackpot</th>
                         <th className='text-end'>Utilidad</th>
                     </tr>
                 </thead>
@@ -82,13 +95,14 @@ function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
                     data.map((valor, index)=>{
                         total_venta += valor.venta*1;
                         total_premios += valor.premios*1;                    
-                        let ganancia = valor.venta - valor.premios;
+                        let ganancia = valor.venta - valor.premios - valor.jackpot;
                         total_ganancia += ganancia*1;
                         return(
                             <tr key={ index }>
                                 <td><a href="#" onClick={ () => ResumenGeneral(valor.fecha) } className="text-primary"><i className="fa-solid fa-print"></i></a> { valor.fecha }</td>                            
                                 <td className='text-end'><FormatNumeric monto = { valor.venta } /> </td>
                                 <td className='text-end'><FormatNumeric monto = { valor.premios } /></td>
+                                <td className='text-end'><FormatNumeric monto = { valor.jackpot } /></td>
                                 <td className={ ganancia < 0 ? 'text-end text-danger fw-bold' : 'text-end text-primary fw-bold'} ><FormatNumeric monto = { ganancia }  /></td>
                             </tr>
                         )
@@ -98,9 +112,10 @@ function resumenventa( {data, setTicketPrint, urlApi, loadingResumenVenta }) {
                 <tfoot>
                     <tr>
                         <th>Totales</th>
-                        <th className='text-end'>{ total_venta }</th>
-                        <th className='text-end'>{ total_premios }</th>
-                        <th className='text-end'>{ total_ganancia }</th>
+                        <th className='text-end'><FormatNumeric monto = { total_venta } /></th>
+                        <th className='text-end'><FormatNumeric monto = { total_premios } /></th>
+                        <th className='text-end'><FormatNumeric monto = { total_jackpot } /></th>
+                        <th className='text-end'><FormatNumeric monto = { total_ganancia } /></th>
                     </tr>
                 </tfoot>        
             </table>

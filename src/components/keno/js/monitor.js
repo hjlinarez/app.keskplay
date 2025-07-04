@@ -6,37 +6,23 @@ export function mostrar_sorteo(userid) {
         .then(response => response.json())
         .then(
                 function(data){
-                    
+                   if (data.idsorteo > 0) 
+                   {
+
                     document.querySelector("#idsorteo").innerHTML = data.idsorteo;                    
                     //document.querySelector("#div_segundos").innerHTML = data.segundos;
                     document.querySelector("#text_contador").value = data.seg_monitor;
-
-
                     document.querySelector("#img_factores").style.display  = 'block';
                     document.querySelector("#img_jackpot").style.display = 'none';
 
-                    
-
-                    
-
-
                     load_videos(data);
-                    
-
                     let porcentaje_inicial = data.segundos * 100 / 180;
                     // coloca la barra de progreso
                     let barra_progeso = '<div class="progress">\
                                             <div id="div_barra_progreso" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>\
                                         </div>';
-
-                        
                     document.querySelector("#section_barra_progreso").innerHTML = barra_progeso;
-
-                    
-
-
                     //document.querySelector("#text_contador").value = 15;
-                    
                     let resultados = data.ultimos_resultados;
                     let cuerpo_tabla = '';
                     resultados.forEach(function(resultado, index){
@@ -51,103 +37,104 @@ export function mostrar_sorteo(userid) {
                     let tabla = '<table class="table table-sm" width="90%">\
                                 '+cuerpo_tabla+'\
                                 </table>';
-                document.querySelector("#idresultados").innerHTML = tabla;
-                //jackpot(userid);
+                    document.querySelector("#idresultados").innerHTML = tabla;
+                    //jackpot(userid);
 
-                //let myJackpot = setInterval(function(){ jackpot(userid) },10000);
+                    //let myJackpot = setInterval(function(){ jackpot(userid) },10000);
 
-                let idInterval = setInterval(function(){
+                    let idInterval = setInterval(function(){
 
-                        var contador = document.getElementById("text_contador");
-                        let cont = contador.value;
-                        cont--;   
-                        let porcentaje_barra = 100 - (cont *100 / 180);
-                        document.querySelectorAll("#div_barra_progreso").forEach(function(element) {
-                            element.style.width = porcentaje_barra+"%";                            
-                        });
-                        
-                        if (cont == 120)
-                        {
-                            //load_videos(data);
-                        }
-                        if (cont == 60)
-                        {
-                            //load_videos(data);
-                        }
-
-                        //EL JACKPOT SE ACTUALIZA HASTA EL SEGUNDO 15
-                        if (cont >=30)
-                        {
-                            //jackpot(userid);
-                        }
-                        
-                        
-                        if (cont >=16 && cont <= 30)
-                        {
-                            document.querySelector("#div_barra_progreso").classList.remove("bg-success");
-                            document.querySelector("#div_barra_progreso").classList.remove("bg-danger");
-                            document.querySelector("#div_barra_progreso").classList.add("bg-warning");
-                        }
-
-                        if (cont <= 15)
-                        {
-                            document.querySelector("#div_barra_progreso").classList.remove("bg-success");
-                            document.querySelector("#div_barra_progreso").classList.remove("bg-warning");
-                            document.querySelector("#div_barra_progreso").classList.add("bg-danger");
-                        }
-
-                        if (cont == 0)
-                        {
-                            clearInterval(idInterval);
-                            let idsorteo = document.querySelector("#idsorteo").innerHTML;
-
-                            //document.getElementById("video_1").play();  
-                            blanquear_pizarra();   
-                            console.log("preparar_sorteo");
-                            preparar_sorteo(idsorteo, userid);                         
+                            var contador = document.getElementById("text_contador");
+                            let cont = contador.value;
+                            cont--;   
+                            let porcentaje_barra = 100 - (cont *100 / 180);
+                            document.querySelectorAll("#div_barra_progreso").forEach(function(element) {
+                                element.style.width = porcentaje_barra+"%";                            
+                            });
                             
-                            
-                            setTimeout(function () { location.reload();}, 25000); //40000
-                            //setTimeout(function () { mostrar_sorteo();}, 40000);
-                            //mostrar_sorteo();
-                        }
-
-
-                        if (cont < 0)
-                        {
-                            return false;
-                        }
-
-
-                        let cont_new = cont ;
-
-                        
-                        var hours = Math.trunc( cont_new / 3600 );  
-                        var minutes = Math.trunc( (cont_new % 3600) / 60 );
-                        var seconds = cont_new % 60;           
-                        //Anteponiendo un 0 a los minutos si son menos de 10 
-                        hours = hours < 10 ? '0' + hours : hours;
-                        minutes = minutes < 10 ? '0' + minutes : minutes;
-                        //Anteponiendo un 0 a los segundos si son menos de 10 
-                        seconds = seconds < 10 ? '0' + seconds : seconds;
-                        if (cont >= 0)
-                        {      
-                            document.getElementById("text_contador").value = cont;
-                            document.getElementById("div_segundos").innerHTML = minutes+":"+seconds;      
-                            if (cont >=15)
+                            if (cont == 120)
                             {
-                                
+                                //load_videos(data);
                             }
-                        }
-                        else
-                        {
-                            //$("#div_segundos").html("Jugando");
-                        }
-                        
+                            if (cont == 60)
+                            {
+                                //load_videos(data);
+                            }
 
-                },1000);
+                            //EL JACKPOT SE ACTUALIZA HASTA EL SEGUNDO 15
+                            if (cont >=30)
+                            {
+                                //jackpot(userid);
+                            }
+                            
+                            
+                            if (cont >=16 && cont <= 30)
+                            {
+                                document.querySelector("#div_barra_progreso").classList.remove("bg-success");
+                                document.querySelector("#div_barra_progreso").classList.remove("bg-danger");
+                                document.querySelector("#div_barra_progreso").classList.add("bg-warning");
+                            }
+
+                            if (cont <= 15)
+                            {
+                                document.querySelector("#div_barra_progreso").classList.remove("bg-success");
+                                document.querySelector("#div_barra_progreso").classList.remove("bg-warning");
+                                document.querySelector("#div_barra_progreso").classList.add("bg-danger");
+                            }
+
+                            if (cont == 0)
+                            {
+                                clearInterval(idInterval);
+                                let idsorteo = document.querySelector("#idsorteo").innerHTML;
+
+                                //document.getElementById("video_1").play();  
+                                blanquear_pizarra();   
+                                console.log("preparar_sorteo");
+                                preparar_sorteo(idsorteo, userid);                         
+                                
+                                
+                                setTimeout(function () { location.reload();}, 25000); //40000
+                                //setTimeout(function () { mostrar_sorteo();}, 40000);
+                                //mostrar_sorteo();
+                            }
+
+
+                            if (cont < 0)
+                            {
+                                return false;
+                            }
+
+
+                            let cont_new = cont ;
+
+                            
+                            var hours = Math.trunc( cont_new / 3600 );  
+                            var minutes = Math.trunc( (cont_new % 3600) / 60 );
+                            var seconds = cont_new % 60;           
+                            //Anteponiendo un 0 a los minutos si son menos de 10 
+                            hours = hours < 10 ? '0' + hours : hours;
+                            minutes = minutes < 10 ? '0' + minutes : minutes;
+                            //Anteponiendo un 0 a los segundos si son menos de 10 
+                            seconds = seconds < 10 ? '0' + seconds : seconds;
+                            if (cont >= 0)
+                            {      
+                                document.getElementById("text_contador").value = cont;
+                                document.getElementById("div_segundos").innerHTML = minutes+":"+seconds;      
+                                if (cont >=15)
+                                {
+                                    
+                                }
+                            }
+                            else
+                            {
+                                //$("#div_segundos").html("Jugando");
+                            }
+                            
+
+                    },1000);
 
                 
+                    }
                 }
             
             );
@@ -160,19 +147,15 @@ function load_videos(data)
     let visibilidad;
 
     visibilidad = 'block';
-
     data.videos.forEach(function(item, index){
         let nombrevideo = item["resultado"].replaceAll(';','');
         videos += '<video id="video_'+nombrevideo+'" width="100%" class="video rounded" style="display:'+visibilidad+'" >\
-                    <source src="https://filesmsb.sfo3.cdn.digitaloceanspaces.com/keno/'+item["video"]+'" type="video/webm">\
-                </video>';
+                        <source src="https://filesmsb.sfo3.cdn.digitaloceanspaces.com/keno/'+item["video"]+'" type="video/webm">\
+                    </video>';
         visibilidad = 'none';
     });
 
     document.querySelector("#videos").innerHTML = videos;
-
-    
-
     
 }
 

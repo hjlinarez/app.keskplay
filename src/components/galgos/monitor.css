@@ -1,0 +1,208 @@
+
+
+html, body{   
+
+    background: url('img/fondo_galgos2.jpg');
+    background-size: cover; /* Ajusta la imagen para ocupar toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita la repetición */
+    background-attachment: fixed; /* Fija la imagen al fondo */
+    overflow: hidden;
+
+    
+    
+    
+    
+    
+   
+}
+
+
+
+
+#videoFondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#div-principal{
+    width: 1360px;
+    height: 920px;
+    border: 0px solid #ff0;
+    margin: auto;
+
+    position: fixed;	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+    
+    
+    
+    
+}
+
+
+.btn_exactas{
+    
+    width: 1.5em;
+}
+
+.btn_reversible{
+    width: 1em;
+}
+
+.table-galgos{
+    border-radius: 10px;
+}
+#table > #tbody{
+    background-color: black;
+}
+
+.text-body-header
+{
+    font-size: 3em;
+    
+}
+
+
+#div_video{    
+    
+    position: fixed; /* Se mantiene fija en la ventana */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    
+}
+
+
+
+.visible {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    
+    padding: 20px;
+    font-size: 20px;
+}
+
+.oculto {
+    position: absolute;
+    /*top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);*/
+    display: none;
+}
+
+#video_carrera{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    z-index: 5000; /* Envía el video al fondo */
+    
+}
+
+
+#resultados{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);    
+    display: none; /* Activa flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    z-index: 6000;
+}
+
+#resultados-contenedor
+{
+    position: relative;
+    width: 50em;
+    
+}
+
+.img-podium{
+    width: 100%;
+    
+}
+
+
+
+.img-ganadora2
+{
+    position: absolute; /* Se coloca encima */
+    
+
+    top: 225px; /* Ajusta la posición vertical */
+    left: 80px; /* Ajusta la posición horizontal */
+
+
+    width: 150px; /* Tamaño de la imagen superpuesta */
+}
+
+
+.img-ganadora1
+{
+    position: absolute; /* Se coloca encima */
+    top: 190px; /* Ajusta la posición vertical */
+    left: 320px; /* Ajusta la posición horizontal */
+    width: 150px; /* Tamaño de la imagen superpuesta */
+}
+
+
+
+.img-ganadora3
+{
+    position: absolute; /* Se coloca encima */
+    top: 225px; /* Ajusta la posición vertical */
+    left: 560px; /* Ajusta la posición horizontal */
+    width: 150px; /* Tamaño de la imagen superpuesta */
+}
+
+
+
+
+#div-login{
+    
+    position: fixed; /* Se mantiene fija en la ventana */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    
+    background-color: rgba(0, 0, 0, 1);        
+    z-index: 5000;
+    border: 0px solid yellow;
+    
+}
+
+#div-login-contenedor
+{   
+    border: 0px solid yellow;    
+    position: fixed;	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+.activar_login{
+    display: block;
+}
+
+.bloquear_login{
+    display: none;
+}
+

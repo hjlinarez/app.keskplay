@@ -46,7 +46,7 @@ function login({setUserid,  urlApi }) {
       })
   return (
     <>
-    <div className="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div className="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-400} aria-labelledby="modalLoginLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
                 <div className="modal-header">
@@ -70,7 +70,7 @@ function login({setUserid,  urlApi }) {
                           {loading ? 'Ingresando...' : 'Ingresar'}
                         </button>
                     </form>
-                    </div>
+                  </div>
             </div>
             </div>
         </div>

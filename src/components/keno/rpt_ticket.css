@@ -17,8 +17,28 @@ p{
   @page { 
     margin: 0.2cm; /* Configura los márgenes según tus necesidades */ 
   } 
-  body { 
-    font-size: 10pt; /* Opcional: ajusta el tamaño de la fuente */
+
+  body {     
     font-weight: bold;
   }
+
+  .font-sm{
+    font-size: 10pt; /* Opcional: ajusta el tamaño de la fuente */    
+  }
+  
+  .font-md{
+    font-size: 12pt; /* Opcional: ajusta el tamaño de la fuente */  
+  }
+
+  .font-lg{
+    font-size: 14pt; /* Opcional: ajusta el tamaño de la fuente */
+    
+  }
+
+  .font-xl{
+    font-size: 16pt; /* Opcional: ajusta el tamaño de la fuente */
+    
+  }
+
+  
 }
