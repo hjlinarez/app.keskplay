@@ -31,7 +31,13 @@ function Monitor({ urlApi }) {
         localStorage.setItem('zoom', 1);
     }  
     const [zoom, setZoom] = useState(localStorage.getItem('zoom'));
-    const [jackpot, setJackpot] = useState({mini:0, super:0, mega:0})
+    const [jackpot, setJackpot] = useState({mini:0, porc_mini:0, super:0, porc_super:0, mega:0, porc_mega:0})
+    const [activeJackpotIndex, setActiveJackpotIndex] = useState(0);
+    const jackpotSlides = [
+        { key: 'mini', label: 'Mini', value: jackpot.mini },
+        { key: 'super', label: 'Super', value: jackpot.super },
+        { key: 'mega', label: 'Mega', value: jackpot.mega }
+    ];
 
     const view_jackpot = ()=>{
 
@@ -48,8 +54,11 @@ function Monitor({ urlApi }) {
                                     {                            
                                         setJackpot({
                                                         mini:  response.mini, 
+                                                        porc_mini:  response.porc_mini,
                                                         super: response.super, 
-                                                        mega:  response.mega
+                                                        porc_super:  response.porc_super,
+                                                        mega:  response.mega,
+                                                        porc_mega:  response.porc_mega
                                                     })
                                     }
                                     })    
@@ -104,15 +113,22 @@ function Monitor({ urlApi }) {
                         
                             setJackpot({
                                 mini:  result.mini, 
+                                porc_mini:  result.porc_mini, 
                                 super: result.super, 
-                                mega:  result.mega
+                                porc_super:  result.porc_super,
+                                mega:  result.mega,
+                                porc_mega:  result.porc_mega
+
                             })
 
                 } catch (error) { 
                     setJackpot({
                         mini:  jackpot.mini, 
+                        porc_mini:  jackpot.porc_mini,
                         super: jackpot.super, 
-                        mega:  jackpot.mega
+                        porc_super:  jackpot.porc_super,
+                        mega:  jackpot.mega,
+                        porc_mega:  jackpot.porc_mega
                     })
                    
                 } 
@@ -122,6 +138,14 @@ function Monitor({ urlApi }) {
             // Limpiar el intervalo cuando el componente se desmonte 
             return () => clearInterval(interval); 
         },[]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveJackpotIndex((prevIndex) => (prevIndex + 1) % 3);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
 
 
     useEffect(() => {
@@ -154,30 +178,9 @@ function Monitor({ urlApi }) {
             
             <div className="row" id="principal">
 
-                    <div className="row m-0 p-0">                        
-                    <div className={ jackpot.mini > 0 ? 'col': 'col d-none' }>
-                            <div className="card card-jackpot">
-                                <div className="card-header text-center header-jackpot">Mini Jackpot</div>
-                                <div className="card-body fs-1 text-center body-jackpot">{ new Intl.NumberFormat().format(jackpot.mini) }</div>
-                            </div>
-                        </div>
-                        <div className={ jackpot.super > 0 ? 'col': 'col d-none' }>
-                            <div className="card card-jackpot">
-                                <div className="card-header text-center header-jackpot">Super Jackpot</div>
-                                <div className="card-body fs-1 text-center body-jackpot">{ new Intl.NumberFormat().format(jackpot.super) }</div>
-                            </div>
-                        </div>
-
-                        <div className={ jackpot.mega > 0 ? 'col': 'col d-none' }>
-                            <div className="card card-jackpot">
-                                <div className="card-header text-center header-jackpot">Mega Jackpot</div>
-                                <div className="card-body fs-1 text-center body-jackpot">{ new Intl.NumberFormat().format(jackpot.mega) }</div>
-                            </div>
-                        </div>
+                    
 
 
-                        
-                    </div>
                 
                     <section id="encabezado"> 
                         <div id="bola_1" className="bola"></div>
@@ -201,9 +204,7 @@ function Monitor({ urlApi }) {
                         <div id="bola_19" className="bola"></div>
                         <div id="bola_20" className="bola"></div>
                     </section>
-                    <section id="section_barra_progreso" >
-                                                    
-                    </section>
+                    
                     <div className="row m-0 p-0" id="cuerpo">
                         <div className="col-7" id="izquierdo">                
                             <div className="row">
@@ -301,9 +302,26 @@ function Monitor({ urlApi }) {
                             </div>
                         </div>
                         <div className="col m-0 p-2" id="derecho">
-                           
-                            <div id="videos">
+
+                            <section id="section_barra_progreso"></section>
+                            <div id="videos" className="mt-1">
                             </div>
+
+                            <div className="jackpots">
+                                {jackpotSlides.map((item, index) => (
+                                    <div
+                                        id={`div_${item.key}jackpot`}
+                                        key={item.key}
+                                        className={index === activeJackpotIndex ? 'jackpot-slide active' : 'jackpot-slide'}
+                                    >
+                                        {item.label}: { new Intl.NumberFormat().format(item.value) }
+                                                                                
+                                    </div>
+                                    
+                                    
+                                ))}
+                            </div>
+                            
 
                            
 

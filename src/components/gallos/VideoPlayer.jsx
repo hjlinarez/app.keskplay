@@ -99,10 +99,12 @@ function VideoPlayer( { videoActivo, setVideoActivo}) {
 
               {combate && combate.video && (
                 <>
+
                   <video id="video_carrera" ref={(el) => (videoRefs.current[0] = el)} preload="auto" autoPlay style={{ display: videoActivo === 1 ? "block" : "none" }} width="100%" height="auto">
                     <source src={urlvideos + combate.video} type="video/mp4" />
                     Tu navegador no soporta el elemento de video.
                   </video>
+
                   <video id="video_alterno" ref={(el) => (videoRefs.current[1] = el)} preload="auto" autoPlay style={{ display: videoActivo === 2 ? "block" : "none" }} width="100%" height="auto">
                     <source src={urlvideos + combate.videoAlt} type="video/mp4" />
                     Tu navegador no soporta el elemento de video.

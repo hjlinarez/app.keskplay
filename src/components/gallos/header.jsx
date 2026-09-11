@@ -66,7 +66,7 @@ function Header( { combate, urlApi } ) {
                     <div className="row">
                         <div className="col">
                             <div className="card h-100"> {/* Agregamos h-100 */}
-                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">MINI JACKPOT (<span className="fs-6">{ idmoneda }</span>)</div>
+                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">MINI JACKPOT</div>
                                 <div className="card-body text-center bg-black bg-gradient text-body-header text-warning text-bold p-0 ">
                                     { jackpot.mini.toLocaleString('es-VE')} 
                                 </div>
@@ -75,7 +75,7 @@ function Header( { combate, urlApi } ) {
 
                         <div className="col">
                             <div className="card h-100"> {/* Agregamos h-100 */}
-                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">Super Jackpot (<span className="fs-6">{ idmoneda }</span>)</div>
+                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">Super Jackpot</div>
                                 <div className="card-body text-center bg-black bg-gradient text-body-header text-warning text-bold p-0">
                                     {jackpot.super.toLocaleString('es-VE') }
                                 </div>
@@ -84,7 +84,7 @@ function Header( { combate, urlApi } ) {
 
                         <div className="col">
                             <div className="card h-100"> {/* Agregamos h-100 */}
-                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">Mega Jackpot (<span className="fs-6">{ idmoneda }</span>)</div>
+                                <div className="card-header bg-warning bg-gradient text-dark fs-5 fw-bold">Mega Jackpot</div>
                                 <div className="card-body text-center bg-black bg-gradient text-body-header text-warning text-bold p-0">
                                     { jackpot.mega.toLocaleString('es-VE') }
                                 </div>

@@ -14,7 +14,7 @@ export function evento(setCombate, setPos1, setPos2, setPos3, videoActivo, setVi
 
                     document.querySelector("#div_evento").innerHTML = data.idevento;                                                            
                     document.querySelector("#text_contador").value = data.segundos;
-                    document.querySelector("#text_contador").value = 10;
+                    //document.querySelector("#text_contador").value = 10;
                     
                     setCombate(data);                    
                     

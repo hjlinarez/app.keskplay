@@ -275,9 +275,26 @@ function preparar_sorteo(idsorteo, userid)
                                                         inicio += 660;    //880                                            
                                                         setTimeout(function () {    
                                                             bola += 1;                                                 
-                                                            document.getElementById("celda_"+valor).classList.remove("table_80_1");
-                                                            document.getElementById("celda_"+valor).classList.add("table_80_1_marcado");
-                                                            document.querySelector("#bola_"+bola).innerHTML = valor;
+                                                            let celda = document.getElementById("celda_"+valor);
+                                                            let bolaElemento = document.querySelector("#bola_"+bola);
+
+                                                            if (celda)
+                                                            {
+                                                                celda.classList.remove("table_80_1");
+                                                                celda.classList.add("table_80_1_marcado");
+                                                            }
+
+                                                            if (bolaElemento)
+                                                            {
+                                                                bolaElemento.classList.remove("bola-oculta");
+                                                                bolaElemento.classList.remove("bola-salida-izquierda");
+                                                                void bolaElemento.offsetWidth;
+                                                                bolaElemento.innerHTML = valor;
+                                                                bolaElemento.classList.add("bola-entrada-derecha");
+                                                                setTimeout(function () {
+                                                                    bolaElemento.classList.remove("bola-entrada-derecha");
+                                                                }, 850);
+                                                            }
                                                         }, inicio);
 
                                         });
@@ -321,9 +338,26 @@ function blanquear_pizarra()
     bolas.forEach(function(elemento, index, arreglo) {
             let valor = arreglo[index].innerHTML;                  
             setTimeout(function () { 
-                    arreglo[index].innerHTML = "";
-                    document.getElementById("celda_"+valor).classList.remove("table_80_1_marcado");
-                    document.getElementById("celda_"+valor).classList.add("table_80_1");
+                    let bolaElemento = arreglo[index];
+                    if (bolaElemento.innerHTML !== "")
+                    {
+                        bolaElemento.classList.remove("bola-entrada-derecha");
+                        void bolaElemento.offsetWidth;
+                        bolaElemento.classList.add("bola-salida-izquierda");
+                    }
+
+                    setTimeout(function () {
+                        bolaElemento.innerHTML = "";
+                        bolaElemento.classList.remove("bola-salida-izquierda");
+                        bolaElemento.classList.add("bola-oculta");
+
+                        let celda = document.getElementById("celda_"+valor);
+                        if (celda)
+                        {
+                            celda.classList.remove("table_80_1_marcado");
+                            celda.classList.add("table_80_1");
+                        }
+                    }, 600);
                 }, inicio);
             inicio += 150;
         });

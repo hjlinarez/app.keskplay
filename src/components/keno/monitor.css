@@ -6,7 +6,7 @@ body {
 
 #principal {
     width: 1360px;
-    height: 920px;
+    height: 750px;
     border: 0px solid #ff0;
     margin: auto;
 
@@ -21,8 +21,12 @@ body {
     width: 100%;
     height: 75px;
     border: 0px solid red;
-    margin: auto
+    margin: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
+
+
 
 #izquierdo {
     width: 816px;
@@ -56,7 +60,7 @@ body {
     text-align: center;
     color: #fff;
     width: 78px;
-    height: 1.75em;
+    height: 1.95em;
     float: left;
     margin-left: 2px;
     margin-bottom: 2px;
@@ -72,7 +76,7 @@ body {
     text-align: center;
     color: #830c02;
     width: 78px;
-    height: 1.75em;
+    height: 1.95em;
     float: left;
     margin-left: 2px;
     margin-bottom: 2px;
@@ -94,6 +98,41 @@ body {
     text-align: center;
     font-weight: 700;
     line-height: 63px
+}
+
+.bola-oculta {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.bola-salida-izquierda {
+    animation: bola-salida-izquierda 0.6s cubic-bezier(0.7, 0, 1, 1) forwards;
+}
+
+.bola-entrada-derecha {
+    animation: bola-entrada-derecha 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes bola-salida-izquierda {
+    from {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-1400px) rotate(-720deg);
+    }
+}
+
+@keyframes bola-entrada-derecha {
+    from {
+        opacity: 0;
+        transform: translateX(1400px) rotate(720deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+    }
 }
 
 #leyenda {
@@ -236,13 +275,6 @@ body {
     100% { opacity: 1.0; }
   }
 
-
-  .capa_coeficiente {
-    
-}
-
-
-  
 
   .title_mini_jackpot{
     color: #830c02;
@@ -411,4 +443,42 @@ body {
     background-color:#004516;            
     padding: 0.1em;
 
+}
+.jackpots{
+    background-color: #000000;
+    color : white;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+}
+
+.jackpot-slide {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: transform 1.4s ease, opacity 1.4s ease;
+}
+
+.jackpot-slide.active {
+    opacity: 1;
+    animation: jackpot-enter-right 1.4s ease forwards;
+}
+
+@keyframes jackpot-enter-right {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
