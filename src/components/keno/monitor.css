@@ -65,7 +65,8 @@ body {
     margin-left: 2px;
     margin-bottom: 2px;
     border-radius: 2px;
-    line-height: 61px
+    line-height: 61px;
+    position: relative
 }
 
 .table_80_1_marcado {
@@ -81,7 +82,23 @@ body {
     margin-left: 2px;
     margin-bottom: 2px;
     border-radius: 5px;
-    line-height: 61px
+    line-height: 61px;
+    position: relative
+}
+
+.celda-random {
+    position: absolute;
+    right: 4px;
+    bottom: 3px;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+}
+
+.table_80_1_marcado .celda-random {
+    color: rgba(131, 12, 2, 0.9);
 }
 
 .bola {

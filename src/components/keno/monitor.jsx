@@ -33,6 +33,13 @@ function Monitor({ urlApi }) {
     const [zoom, setZoom] = useState(localStorage.getItem('zoom'));
     const [jackpot, setJackpot] = useState({mini:0, porc_mini:0, super:0, porc_super:0, mega:0, porc_mega:0})
     const [activeJackpotIndex, setActiveJackpotIndex] = useState(0);
+    const [detenerIncremento, setDetenerIncremento] = useState(false);
+    const [celdasConValor, setCeldasConValor] = useState(() =>
+        Array.from({ length: 80 }, (_, index) => ({
+            numero: index + 1,
+            aleatorio: Math.floor(Math.random() * (9999 - 451 + 1)) + 451
+        }))
+    );
     const jackpotSlides = [
         { key: 'mini', label: 'Mini', value: {monto: jackpot.mini, porcentaje:jackpot.porc_mini} },
         { key: 'super', label: 'Super', value: {monto: jackpot.super, porcentaje:jackpot.porc_super} },
@@ -147,6 +154,71 @@ function Monitor({ urlApi }) {
         return () => clearInterval(interval);
     }, []);
 
+    useEffect(() => {
+        if (detenerIncremento) {
+            return;
+        }
+
+        const interval = setInterval(() => {
+            setCeldasConValor((prev) => {
+                if (prev.every((celda) => celda.aleatorio >= 9999)) {
+                    clearInterval(interval);
+                    return prev;
+                }
+
+                let huboCambio = false;
+                let actualizado = prev.map((celda) => {
+                    if (celda.aleatorio >= 9999) {
+                        return celda;
+                    }
+
+                    if (Math.random() < 0.45) {
+                        huboCambio = true;
+                        return {
+                            ...celda,
+                            aleatorio: Math.min(9999, celda.aleatorio + 1)
+                        };
+                    }
+
+                    return celda;
+                });
+
+                // Asegura que siempre al menos una celda avance por ciclo.
+                if (!huboCambio) {
+                    const disponibles = actualizado
+                        .map((celda, index) => (celda.aleatorio < 9999 ? index : -1))
+                        .filter((index) => index >= 0);
+
+                    if (disponibles.length > 0) {
+                        const elegido = disponibles[Math.floor(Math.random() * disponibles.length)];
+                        actualizado = [...actualizado];
+                        actualizado[elegido] = {
+                            ...actualizado[elegido],
+                            aleatorio: Math.min(9999, actualizado[elegido].aleatorio + 1)
+                        };
+                    }
+                }
+
+                return actualizado;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [detenerIncremento]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const contadorTexto = document.querySelector("#text_contador")?.value;
+            const contador = Number(contadorTexto);
+
+            if (!Number.isNaN(contador) && contador <= 0) {
+                setDetenerIncremento(true);
+            }
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, []);
+
 
     useEffect(() => {
         if (userid > 0){
@@ -209,86 +281,12 @@ function Monitor({ urlApi }) {
                         <div className="col-7" id="izquierdo">                
                             <div className="row">
                                 <div className="col">
-                                    <div id="celda_1"  className="celda table_80_1">1</div>
-                                    <div id="celda_2"  className="celda table_80_1">2</div>
-                                    <div id="celda_3"  className="celda table_80_1">3</div>
-                                    <div id="celda_4"  className="celda table_80_1">4</div>
-                                    <div id="celda_5"  className="celda table_80_1">5</div>
-                                    <div id="celda_6"  className="celda table_80_1">6</div>
-                                    <div id="celda_7"  className="celda table_80_1">7</div>
-                                    <div id="celda_8"  className="celda table_80_1">8</div>
-                                    <div id="celda_9"  className="celda table_80_1">9</div>
-                                    <div id="celda_10" className="celda table_80_1">10</div>
-                                    <div id="celda_11" className="celda table_80_1">11</div>
-                                    <div id="celda_12" className="celda table_80_1">12</div>
-                                    <div id="celda_13" className="celda table_80_1">13</div>
-                                    <div id="celda_14" className="celda table_80_1">14</div>
-                                    <div id="celda_15" className="celda table_80_1">15</div>
-                                    <div id="celda_16" className="celda table_80_1">16</div>
-                                    <div id="celda_17" className="celda table_80_1">17</div>
-                                    <div id="celda_18" className="celda table_80_1">18</div>
-                                    <div id="celda_19" className="celda table_80_1">19</div>
-                                    <div id="celda_20" className="celda table_80_1">20</div>
-                                    <div id="celda_21" className="celda table_80_1">21</div>
-                                    <div id="celda_22" className="celda table_80_1">22</div>
-                                    <div id="celda_23" className="celda table_80_1">23</div>
-                                    <div id="celda_24" className="celda table_80_1">24</div>
-                                    <div id="celda_25" className="celda table_80_1">25</div>
-                                    <div id="celda_26" className="celda table_80_1">26</div>
-                                    <div id="celda_27" className="celda table_80_1">27</div>
-                                    <div id="celda_28" className="celda table_80_1">28</div>
-                                    <div id="celda_29" className="celda table_80_1">29</div>
-                                    <div id="celda_30" className="celda table_80_1">30</div>
-                                    <div id="celda_31" className="celda table_80_1">31</div>
-                                    <div id="celda_32" className="celda table_80_1">32</div>
-                                    <div id="celda_33" className="celda table_80_1">33</div>
-                                    <div id="celda_34" className="celda table_80_1">34</div>
-                                    <div id="celda_35" className="celda table_80_1">35</div>
-                                    <div id="celda_36" className="celda table_80_1">36</div>
-                                    <div id="celda_37" className="celda table_80_1">37</div>
-                                    <div id="celda_38" className="celda table_80_1">38</div>
-                                    <div id="celda_39" className="celda table_80_1">39</div>
-                                    <div id="celda_40" className="celda table_80_1">40</div>
-                                    <div id="celda_41" className="celda table_80_1">41</div>
-                                    <div id="celda_42" className="celda table_80_1">42</div>
-                                    <div id="celda_43" className="celda table_80_1">43</div>
-                                    <div id="celda_44" className="celda table_80_1">44</div>
-                                    <div id="celda_45" className="celda table_80_1">45</div>
-                                    <div id="celda_46" className="celda table_80_1">46</div>
-                                    <div id="celda_47" className="celda table_80_1">47</div>
-                                    <div id="celda_48" className="celda table_80_1">48</div>
-                                    <div id="celda_49" className="celda table_80_1">49</div>
-                                    <div id="celda_50" className="celda table_80_1">50</div>
-                                    <div id="celda_51" className="celda table_80_1">51</div>
-                                    <div id="celda_52" className="celda table_80_1">52</div>
-                                    <div id="celda_53" className="celda table_80_1">53</div>
-                                    <div id="celda_54" className="celda table_80_1">54</div>
-                                    <div id="celda_55" className="celda table_80_1">55</div>
-                                    <div id="celda_56" className="celda table_80_1">56</div>
-                                    <div id="celda_57" className="celda table_80_1">57</div>
-                                    <div id="celda_58" className="celda table_80_1">58</div>
-                                    <div id="celda_59" className="celda table_80_1">59</div>
-                                    <div id="celda_60" className="celda table_80_1">60</div>
-                                    <div id="celda_61" className="celda table_80_1">61</div>
-                                    <div id="celda_62" className="celda table_80_1">62</div>
-                                    <div id="celda_63" className="celda table_80_1">63</div>
-                                    <div id="celda_64" className="celda table_80_1">64</div>
-                                    <div id="celda_65" className="celda table_80_1">65</div>
-                                    <div id="celda_66" className="celda table_80_1">66</div>
-                                    <div id="celda_67" className="celda table_80_1">67</div>
-                                    <div id="celda_68" className="celda table_80_1">68</div>
-                                    <div id="celda_69" className="celda table_80_1">69</div>
-                                    <div id="celda_70" className="celda table_80_1">70</div>
-                                    <div id="celda_71" className="celda table_80_1">71</div>
-                                    <div id="celda_72" className="celda table_80_1">72</div>
-                                    <div id="celda_73" className="celda table_80_1">73</div>
-                                    <div id="celda_74" className="celda table_80_1">74</div>
-                                    <div id="celda_75" className="celda table_80_1">75</div>
-                                    <div id="celda_76" className="celda table_80_1">76</div>
-                                    <div id="celda_77" className="celda table_80_1">77</div>
-                                    <div id="celda_78" className="celda table_80_1">78</div>
-                                    <div id="celda_79" className="celda table_80_1">79</div>
-                                    <div id="celda_80" className="celda table_80_1">80</div>
+                                    {celdasConValor.map((celda) => (
+                                        <div id={`celda_${celda.numero}`} className="celda table_80_1" key={celda.numero}>
+                                            {celda.numero}
+                                            <span className="celda-random">{celda.aleatorio}</span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                             <div className="row p-1" id="leyenda">
