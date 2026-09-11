@@ -455,7 +455,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: 1.3em;
+    
 }
 
 .jackpot-slide {
@@ -470,6 +471,42 @@ body {
 .jackpot-slide.active {
     opacity: 1;
     animation: jackpot-enter-right 1.4s ease forwards;
+}
+
+.jackpot-line {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.jackpot-value {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.jackpot-percent-wrapper {
+    flex: 1;
+    height: 14px;
+    margin: 0;
+    border: 1px solid #fdd442;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+}
+
+.jackpot-percent-bar {
+    height: 100%;
+    min-width: 42px;
+    background: linear-gradient(90deg, #fdd442 0%, #ff7a00 100%);
+    color: #111;
+    font-weight: 700;
+    
+    text-align: right;
+    padding-right: 4px;
+    white-space: nowrap;
 }
 
 @keyframes jackpot-enter-right {

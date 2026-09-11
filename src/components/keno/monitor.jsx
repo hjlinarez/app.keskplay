@@ -34,9 +34,9 @@ function Monitor({ urlApi }) {
     const [jackpot, setJackpot] = useState({mini:0, porc_mini:0, super:0, porc_super:0, mega:0, porc_mega:0})
     const [activeJackpotIndex, setActiveJackpotIndex] = useState(0);
     const jackpotSlides = [
-        { key: 'mini', label: 'Mini', value: jackpot.mini },
-        { key: 'super', label: 'Super', value: jackpot.super },
-        { key: 'mega', label: 'Mega', value: jackpot.mega }
+        { key: 'mini', label: 'Mini', value: {monto: jackpot.mini, porcentaje:jackpot.porc_mini} },
+        { key: 'super', label: 'Super', value: {monto: jackpot.super, porcentaje:jackpot.porc_super} },
+        { key: 'mega', label: 'Mega', value: {monto: jackpot.mega, porcentaje:jackpot.porc_mega} }
     ];
 
     const view_jackpot = ()=>{
@@ -308,18 +308,30 @@ function Monitor({ urlApi }) {
                             </div>
 
                             <div className="jackpots">
-                                {jackpotSlides.map((item, index) => (
-                                    <div
-                                        id={`div_${item.key}jackpot`}
-                                        key={item.key}
-                                        className={index === activeJackpotIndex ? 'jackpot-slide active' : 'jackpot-slide'}
-                                    >
-                                        {item.label}: { new Intl.NumberFormat().format(item.value) }
-                                                                                
-                                    </div>
-                                    
-                                    
-                                ))}
+                                {jackpotSlides.map((item, index) => {
+                                    const porcentaje = Number(item.value.porcentaje || 0);
+                                    const porcentajeAjustado = Math.max(0, Math.min(100, porcentaje));
+
+                                    return (
+                                        <div
+                                            id={`div_${item.key}jackpot`}
+                                            key={item.key}
+                                            className={index === activeJackpotIndex ? 'jackpot-slide active' : 'jackpot-slide'}
+                                        >
+                                            <div className="jackpot-line">
+                                                <span className="jackpot-value">{item.label}: {new Intl.NumberFormat('es-ES', { maximumFractionDigits: 2 }).format(Number(item.value.monto || 0))}</span>
+                                                <div className="jackpot-percent-wrapper">
+                                                    <div
+                                                        className="jackpot-percent-bar"
+                                                        style={{ width: `${porcentajeAjustado}%` }}
+                                                    >
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                             
 
