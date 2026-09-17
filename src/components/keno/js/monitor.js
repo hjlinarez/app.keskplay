@@ -93,7 +93,7 @@ export function mostrar_sorteo(userid) {
                                 preparar_sorteo(idsorteo, userid);                         
                                 
                                 
-                                setTimeout(function () { location.reload();}, 25000); //40000
+                                setTimeout(function () { mostrar_sorteo(userid);}, 30000); //40000
                                 //setTimeout(function () { mostrar_sorteo();}, 40000);
                                 //mostrar_sorteo();
                             }
@@ -156,7 +156,67 @@ function load_videos(data)
     });
 
     document.querySelector("#videos").innerHTML = videos;
+    document.querySelectorAll("#videos video").forEach(function(video) {
+        video.preload = 'auto';
+        video.muted = true;
+        video.playsInline = true;
+        video.load();
+    });
     
+}
+
+
+function reproducirVideoConReintentos(videoId, intentosMaximos = 8)
+{
+    let intentos = 0;
+
+    const intentarReproduccion = function() {
+        const video = document.getElementById(videoId);
+
+        if (!video)
+        {
+            if (intentos++ < intentosMaximos)
+            {
+                setTimeout(intentarReproduccion, 1000);
+            }
+            return;
+        }
+
+        const videoListo = video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
+        if (!videoListo)
+        {
+            video.load();
+
+            if (intentos++ < intentosMaximos)
+            {
+                setTimeout(intentarReproduccion, 1000);
+            }
+            return;
+        }
+
+        const videos = [...document.querySelectorAll(".video")];
+        videos.forEach(function(elemento) {
+            elemento.style.display = 'none';
+        });
+
+        video.style.display = 'block';
+        video.playbackRate = 1.5;
+
+        const promesaReproduccion = video.play();
+        if (promesaReproduccion && typeof promesaReproduccion.catch === 'function')
+        {
+            promesaReproduccion.catch(function() {
+                if (intentos++ < intentosMaximos)
+                {
+                    video.load();
+                    setTimeout(intentarReproduccion, 1000);
+                }
+            });
+        }
+    };
+
+    intentarReproduccion();
 }
 
 
@@ -257,16 +317,7 @@ function preparar_sorteo(idsorteo, userid)
                             let resultados = data.resultado.split(';');
                             let jackpot = data.jackpot;
                             //console.log(jackpot);
-                            const videos = [...document.querySelectorAll(".video")];
-                            videos.forEach(function(elemento, index, arreglo) {
-                                            let valor = arreglo[index].id;    
-                                            document.getElementById(valor).style.display='none';
-                                        });
-
-                            document.getElementById(video).style.display='block';
-                            document.getElementById(video).playbackRate=1.5;
-
-                            document.getElementById(video).play();
+                            reproducirVideoConReintentos(video);
 
                             setTimeout(function () { 
                             

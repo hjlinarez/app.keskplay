@@ -11,10 +11,17 @@ import  './monitor.css'
 
 import fondoImagen from './img/fondo.jpg';
 
+function crearCeldasConValor() {
+    return Array.from({ length: 80 }, (_, index) => ({
+        numero: index + 1,
+        aleatorio: Math.floor(Math.random() * (9999 - 451 + 1)) + 451
+    }));
+}
+
 function Monitor({ urlApi }) {
 
     useEffect(() => {
-        document.body.style.backgroundImage = `url(${fondoImagen})`;
+        //document.body.style.backgroundImage = `url(${fondoImagen})`;
         document.body.style.backgroundSize = 'cover';
         document.body.style.backgroundRepeat = 'no-repeat';
         document.body.style.backgroundPosition = 'center';
@@ -34,16 +41,12 @@ function Monitor({ urlApi }) {
     const [jackpot, setJackpot] = useState({mini:0, porc_mini:0, super:0, porc_super:0, mega:0, porc_mega:0})
     const [activeJackpotIndex, setActiveJackpotIndex] = useState(0);
     const [detenerIncremento, setDetenerIncremento] = useState(false);
-    const [celdasConValor, setCeldasConValor] = useState(() =>
-        Array.from({ length: 80 }, (_, index) => ({
-            numero: index + 1,
-            aleatorio: Math.floor(Math.random() * (9999 - 451 + 1)) + 451
-        }))
-    );
+    const [partidaActual, setPartidaActual] = useState('');
+    const [celdasConValor, setCeldasConValor] = useState(() => crearCeldasConValor());
     const jackpotSlides = [
-        { key: 'mini', label: 'Mini', value: {monto: jackpot.mini, porcentaje:jackpot.porc_mini} },
-        { key: 'super', label: 'Super', value: {monto: jackpot.super, porcentaje:jackpot.porc_super} },
-        { key: 'mega', label: 'Mega', value: {monto: jackpot.mega, porcentaje:jackpot.porc_mega} }
+        { key: 'mini', label: 'MINI', color: '#34d399', value: {monto: jackpot.mini, porcentaje:jackpot.porc_mini} },
+        { key: 'super', label: 'SUPER', color: '#60a5fa', value: {monto: jackpot.super, porcentaje:jackpot.porc_super} },
+        { key: 'mega', label: 'MEGA', color: '#f97316', value: {monto: jackpot.mega, porcentaje:jackpot.porc_mega} }
     ];
 
     const view_jackpot = ()=>{
@@ -208,16 +211,32 @@ function Monitor({ urlApi }) {
 
     useEffect(() => {
         const interval = setInterval(() => {
+            const idSorteoTexto = document.querySelector("#idsorteo")?.textContent?.trim();
+            if (idSorteoTexto && idSorteoTexto !== '000000' && idSorteoTexto !== partidaActual) {
+                setPartidaActual(idSorteoTexto);
+                setDetenerIncremento(false);
+                setCeldasConValor(crearCeldasConValor());
+            }
+
             const contadorTexto = document.querySelector("#text_contador")?.value;
+            if (contadorTexto === undefined || contadorTexto === null || contadorTexto === "") {
+                return;
+            }
+
             const contador = Number(contadorTexto);
 
             if (!Number.isNaN(contador) && contador <= 0) {
                 setDetenerIncremento(true);
+                return;
+            }
+
+            if (!Number.isNaN(contador) && contador > 0) {
+                setDetenerIncremento(false);
             }
         }, 500);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [partidaActual]);
 
 
     useEffect(() => {
@@ -291,7 +310,7 @@ function Monitor({ urlApi }) {
                             </div>
                             <div className="row p-1" id="leyenda">
                                 <div id="partida" className="col-3" >
-                                    <h2>PARTIDA</h2>
+                                    <h2 className="text-danger">PARTIDA</h2>
                                     <div id="idsorteo" className="h4 text-danger">000000</div>
                                     <div className="h4" id="div_segundos"></div>
                                 </div>
@@ -321,7 +340,7 @@ function Monitor({ urlApi }) {
                                                 <div className="jackpot-percent-wrapper">
                                                     <div
                                                         className="jackpot-percent-bar"
-                                                        style={{ width: `${porcentajeAjustado}%` }}
+                                                        style={{ width: `${porcentajeAjustado}%`, background: `linear-gradient(90deg, ${item.color} 0%, ${item.color}cc 100%)` }}
                                                     >
                                                         
                                                     </div>
