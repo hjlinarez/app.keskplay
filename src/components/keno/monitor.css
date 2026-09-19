@@ -23,7 +23,7 @@ body {
     border: 0px solid red;
     margin: auto;
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: hidden;
 }
 
 
@@ -462,7 +462,7 @@ body {
 
 }
 .jackpots{
-    background-color: #000000;
+    background-color: #202020;
     color : white;
     height: 40px;
     text-align: center;
