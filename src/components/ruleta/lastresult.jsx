@@ -5,9 +5,9 @@ function getColor(numero) {
   const rojos = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
   const verdes = [0]; // si incluyes el 0 como verde
 
-  if (verdes.includes(numero)) return "btn-success";
-  if (rojos.includes(numero)) return "btn-danger";
-  return "btn-dark"; // negro
+  if (verdes.includes(numero)) return "bg-success text-white";
+  if (rojos.includes(numero)) return "bg-danger text-white";
+  return "bg-dark text-white"; // negro
 }
 
 
@@ -17,17 +17,26 @@ function Lastresult({ sorteo}){
   return (
         <>
         
-        <div className="card mt-1">
-          <div className="card-header text-center bg-warning text-dark fw-bold">Ultimos 5 resultados</div>
-          <div className="card-body text-center p-1 m-0">
+        <table className="table text-white text-center m-0" style={{fontSize: "1.2em", width: "100%"}}>
+          <tbody>
+            <tr>
+              { sorteo.ultimos_resultados?.map((item, index) => (
+                <td key={index} className={`${getColor(item.numero)} `}>{item.numero}</td>
+              )) }
+            </tr>
+            <tr style={{fontWeight: "bold", fontSize: "0.6em", textAlign: "center"}}>
 
-            <div className="btn-group btn-group-lg w-100" role="group" >
-            { sorteo.ultimos_resultados?.map((item, index) => (
-                <button key={index} type="button" className={`btn ${getColor(item.numero)} fs-5 m-0 p-1`}><span className="badge text-white p-1">{item.numero}</span></button>
-            )) }
-            </div>
-          </div>
-        </div>
+              { sorteo.ultimos_resultados?.map((item, index) => (
+                <td key={index} style={{ textAlign: "center", backgroundColor: "rgba(0,0,0,0.3)", color: "white" }}>#{item.idsorteo}</td>
+              )) }
+
+              
+            </tr>
+          </tbody>
+        </table>
+        
+        
+        
         </>
         );
 }

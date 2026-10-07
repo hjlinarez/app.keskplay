@@ -10,6 +10,7 @@ import Logo from "./logo.jsx";
 import Jackpot from "./jackpot.jsx";
 import LastResult from "./lastresult.jsx";
 import Last120 from "./last120.jsx";
+import Derecha from "./derecha.jsx";
 import styles from './ruleta.module.css';
 
 import Mostrarjackpot from "../mostrarJackpot.jsx";
@@ -75,13 +76,14 @@ function Ruleta({ urlApi }) {
   const [mostrarjackpot, setMostrarjackpot] = useState(false);
 
   useEffect(() => {
+    document.body.style.background = '#024905';
     document.body.style.backgroundImage = `url(${fondoImagen})`;
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundRepeat = 'no-repeat';
     document.body.style.backgroundPosition = 'center';
 
     return () => {
-      document.body.style.backgroundImage = '';
+      document.body.style.background = '';
     };
   }, []);
 
@@ -183,14 +185,17 @@ function Ruleta({ urlApi }) {
 
             <div className={styles.izquierda} id="izquierda" >
               <Logo sorteo={sorteo} urlApi={urlApi} />
-              <Last120 sorteo={sorteo} urlApi={urlApi} />
-              
+              <div className={styles.jackpotBottom}>
+                <Jackpot sorteo={sorteo} />
+              </div>
             </div>
 
 
-            <div className={styles.centro} id="centro" >              
-              <img src={ruletaimg} alt="" className={styles.imgruleta} id="img-sorteo"/>                            
-              <img src={bolaimg} alt="" className={styles.bola} id="img-bola"/>
+            <div className={styles.centro} id="centro" >
+              <div className={styles.wheelShell}>
+                <img src={ruletaimg} alt="" className={styles.imgruleta} id="img-sorteo"/>
+                <img src={bolaimg} alt="" className={styles.bola} id="img-bola"/>
+              </div>
             </div>
 
 
@@ -200,9 +205,10 @@ function Ruleta({ urlApi }) {
             <div className={styles.derecha} id="derecha">
               <Evento sorteo={sorteo} urlApi={urlApi} setEjecutarSorteo={setEjecutarSorteo} />
               
-              <Jugadas sorteo={sorteo} urlApi={urlApi} />
-              <Jackpot sorteo={sorteo} />
-              <LastResult sorteo={sorteo} urlApi={urlApi} />
+              
+              <Derecha sorteo={sorteo} urlApi={urlApi} />
+              
+              
               
               
             </div>

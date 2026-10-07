@@ -114,15 +114,15 @@ function Last120({ sorteo}){
 
           <div className="d-flex w-100 mt-1" >
             <div className="card flex-fill">
-              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">Doc. I</div>
+              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">1-12</div>
               <div className="card-body m-0 p-0 text-center">{ doc1 }</div>
             </div>
             <div className="card flex-fill">
-              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">Doc. II</div>
+              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">13-24</div>
               <div className="card-body m-0 p-0 text-center">{ doc2 }</div>
             </div>
             <div className="card flex-fill">
-              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">Doc. III</div>
+              <div className="card-header m-0 p-0 bg-warning text-black fw-bold text-center">25-36</div>
               <div className="card-body m-0 p-0 text-center">{ doc3 }</div>
             </div>
             
