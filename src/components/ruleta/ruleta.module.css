@@ -5,7 +5,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 1920px;
   border: 0px solid rgba(223, 13, 13, 0.893);
+  margin: 0 auto;
 }
 
 .principal {
