@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Footer from "../footer";
 import ruletaimg from  "./img/ruleta.png";
+import esferaimg from  "./img/esfera.png";
 import bolaimg from  "./img/bola.png";
 
 import logokeskplay from  "../../img/logo_keskplay.png";
@@ -71,9 +72,36 @@ import Audio from "./audio/roullette.mp3";
 
 function Ruleta({ urlApi }) {
 
+  const buildRandomPocketValues = () =>
+    Array.from({ length: 37 }, () => 0);
+
+  const rouletteNumbers = [
+    0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5,
+    24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
+  ];
+
+  const redNumbers = new Set([1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]);
+
+  const pocketRing = rouletteNumbers.map((value, index) => {
+    const angle = (index / rouletteNumbers.length) * Math.PI * 2 - Math.PI / 2;
+    const radius = 415;
+    const centerX = 450;
+    const centerY = 450;
+
+    return {
+      value,
+      left: centerX + Math.cos(angle) * radius,
+      top: centerY + Math.sin(angle) * radius,
+      className: value === 0 ? "green" : redNumbers.has(value) ? "red" : "black",
+    };
+  });
+
   const [sorteo, setSorteo] = useState([]);
   const [ejecutarSorteo, setEjecutarSorteo] = useState(false);  
   const [mostrarjackpot, setMostrarjackpot] = useState(false);
+  const [pocketValues, setPocketValues] = useState(buildRandomPocketValues);
+  const [isSorteoEnCurso, setIsSorteoEnCurso] = useState(false);
+  const previousSorteoIdRef = useRef(null);
 
   useEffect(() => {
     document.body.style.background = '#024905';
@@ -111,6 +139,7 @@ function Ruleta({ urlApi }) {
     // Set the document title
 
     if(ejecutarSorteo) {
+      setIsSorteoEnCurso(true);
       setEjecutarSorteo(false);
       console.log("Ejecutando el sorteo #", sorteo.idsorteo);
       resultadoSorteo(sorteo.idsorteo, fetchSorteo, setMostrarjackpot);
@@ -128,7 +157,63 @@ function Ruleta({ urlApi }) {
   }
   , []);
 
+  useEffect(() => {
+    if (!sorteo?.idsorteo) {
+      return;
+    }
 
+    const isFirstLoad = previousSorteoIdRef.current === null;
+    const isNewSorteo = previousSorteoIdRef.current !== sorteo.idsorteo;
+
+    if (isFirstLoad || isNewSorteo) {
+      setIsSorteoEnCurso(false);
+      setPocketValues(buildRandomPocketValues());
+      previousSorteoIdRef.current = sorteo.idsorteo;
+    }
+  }, [sorteo?.idsorteo]);
+
+  useEffect(() => {
+    if (!sorteo?.idsorteo || isSorteoEnCurso) {
+      return;
+    }
+
+    const incrementTimer = setInterval(() => {
+      setPocketValues((prevValues) => {
+        if (prevValues.length === 0) {
+          return prevValues;
+        }
+
+        const nextValues = [...prevValues];
+        const updateCount = Math.min(10, nextValues.length);
+        const usedIndexes = new Set();
+
+        while (usedIndexes.size < updateCount) {
+          const randomIndex = Math.floor(Math.random() * nextValues.length);
+          if (usedIndexes.has(randomIndex)) {
+            continue;
+          }
+
+          usedIndexes.add(randomIndex);
+          const incrementValue = Math.floor(Math.random() * 10) + 1;
+          nextValues[randomIndex] = (nextValues[randomIndex] + incrementValue) % 1000;
+        }
+
+        return nextValues;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(incrementTimer);
+    };
+  }, [sorteo?.idsorteo, isSorteoEnCurso]);
+
+
+  const highestPocketIndex = pocketValues.length > 0
+    ? pocketValues.reduce(
+        (highestIndex, value, index, values) => value > values[highestIndex] ? index : highestIndex,
+        0
+      )
+    : -1;
   
   return (
     <>
@@ -184,17 +269,32 @@ function Ruleta({ urlApi }) {
             
 
             <div className={styles.izquierda} id="izquierda" >
+              <Evento sorteo={sorteo} urlApi={urlApi} setEjecutarSorteo={setEjecutarSorteo} />
               <Logo sorteo={sorteo} urlApi={urlApi} />
+              
               <div className={styles.jackpotBottom}>
                 <Jackpot sorteo={sorteo} />
               </div>
             </div>
 
 
-            <div className={styles.centro} id="centro" >
-              <div className={styles.wheelShell}>
+            <div className={styles.centro} id="centro" >              
+              <div className={styles.wheelShell}>                
                 <img src={ruletaimg} alt="" className={styles.imgruleta} id="img-sorteo"/>
                 <img src={bolaimg} alt="" className={styles.bola} id="img-bola"/>
+                <img src={esferaimg} alt="" className={styles.imgesfera} id="img-esfera"/>
+
+                <div className={styles.pocketRing} aria-hidden="true">
+                  {pocketRing.map(({ value, left, top, className }, index) => (
+                    <div
+                      key={value === 0 ? "zero" : value}
+                      className={`${styles.pocket} ${styles[className]} ${index === highestPocketIndex ? styles.highest : ""}`}
+                      style={{ left, top }}
+                    >
+                      {pocketValues[index] ?? 0}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -203,13 +303,8 @@ function Ruleta({ urlApi }) {
 
 
             <div className={styles.derecha} id="derecha">
-              <Evento sorteo={sorteo} urlApi={urlApi} setEjecutarSorteo={setEjecutarSorteo} />
-              
               
               <Derecha sorteo={sorteo} urlApi={urlApi} />
-              
-              
-              
               
             </div>
           </div>

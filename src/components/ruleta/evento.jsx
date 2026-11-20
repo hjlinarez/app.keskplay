@@ -9,8 +9,10 @@ function getSegundos(segundos) {
 
 function Evento({ sorteo, setEjecutarSorteo }) {
     const[tiempo, setTiempo] = useState(sorteo.segundos || 0);
+    
     useEffect(() => {
                     setTiempo(sorteo.segundos || 0);
+                    //setTiempo(5 || 0);
                     const intervalo = setInterval(() => {
                                                             setTiempo(prev => {
                                                                                 if (prev <= 1) {
@@ -30,9 +32,7 @@ function Evento({ sorteo, setEjecutarSorteo }) {
   return (
             <>
             <div className="card bg-transparent">
-                <div className="card-header fs-4 text-center bg-warning text-dark fw-bold">
-                    Sorteo #{sorteo.idsorteo}
-                </div>
+                
                 <div className="card-body  fs-1 text-warning fw-bold text-center p-0">
                     { getSegundos(tiempo) }
                 </div>

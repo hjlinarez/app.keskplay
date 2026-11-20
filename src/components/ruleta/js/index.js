@@ -60,10 +60,12 @@ export function EjecutarRuleta(valor)
     }
     //data Para resultados aleatorios, según la probabilidad del resultado
     // 1 ~ 38 números aleatorios (en data meto el número de parada)
-    var sincro=0;
+    
     //data = data[Math.floor(Math.random() * data.length)];
     //data=1;
-    sincro = Math.floor(Math.random() * 360);
+    //var sincro=0;
+    //sincro = Math.floor(Math.random() * 360);
+    const sincro = Math.floor(Math.random() * 9) - 4;
     var ronda = 10; // tiempos iniciales, introducidos por el fondo
     var isture = 0;
 
@@ -81,7 +83,7 @@ export function EjecutarRuleta(valor)
                 rotateFunc(2, 58+sincro, 'Dos');
                 break;
             case 3:
-                rotateFunc(3, 341+sincro, 'Tres');
+                rotateFunc(3, 341+sincro, 'Tres');//341
                 break;
             case 4:
                 rotateFunc(4, 39+sincro, 'Cuatro');
@@ -105,7 +107,7 @@ export function EjecutarRuleta(valor)
                 rotateFunc(10, 175+sincro, 'Diez');
                 break;
             case 11:
-                rotateFunc(11, 136+sincro, 'Once');
+                rotateFunc(11, 136+sincro, 'Once');//136
                 break;
             case 12:
                 rotateFunc(12, 321+sincro, 'Doce');
@@ -435,10 +437,12 @@ export function resultadoSorteo(idsorteo, fetchSorteo, setMostrarjackpot)
                             fetch('https://api.keskplay.com/api/ruleta/sorteo/'+idsorteo)
                             .then(response => response.json())
                             .then(function (data){
+                                                    
                                                     if (data.cerrada == 1){                            
                                                         console.log(parseInt(data.numero));
                                                         clearInterval(myInterval);
                                                         EjecutarRuleta(parseInt(data.numero));
+                                                        //EjecutarRuleta(parseInt(11));
                                                         setTimeout(() => {
                                                             fetchSorteo();    
                                                             verificarjackpot(idsorteo, setMostrarjackpot);
@@ -452,11 +456,11 @@ export function resultadoSorteo(idsorteo, fetchSorteo, setMostrarjackpot)
                             },1000);    
    }
 
-function contador_segundos()
+function contador_segundoss()
 {
     
     
-        let cont = document.querySelector("#text_contador").value;			
+        let cont = document.querySelector("#text_contador").value;			        
         cont--;	
         document.querySelector("#text_contador").value = cont;
 

@@ -96,6 +96,13 @@ function derecha({ sorteo, urlApi}){
 
   return (
         <>
+
+        <table className={styles.tabladerecha}>
+        <tr>
+            <td className="h4 text-white">PARTIDA # {sorteo.idsorteo}
+            </td>
+        </tr>
+        </table>
         
         <table className={styles.tabladerecha}> 
             <tr>

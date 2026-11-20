@@ -1,4 +1,3 @@
-
 .wrapper {
   position: fixed;
   inset: 0;
@@ -83,11 +82,8 @@
 .wheelShell {
   position: relative;
   z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 950px;
-  height: 950px;
+  width: 900px;
+  height: 900px;
   transform-origin: center center;
   transform: scale(var(--roulette-scale, 1));
 }
@@ -115,16 +111,83 @@
 	
 } 
 
-.imgruleta{
-  width: 950px;
-  filter: drop-shadow(0 26px 28px rgba(0,0,0,0.42));
+.imgesfera {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 900px;
+  margin-left: -450px;
+  margin-top: -450px;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.bola{	
-    width: 775px;	
-	position: absolute;	
-    border: 0px solid yellow;
-    filter: drop-shadow(0 12px 18px rgba(0,0,0,0.5));
+.imgruleta {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 900px;
+  margin-left: -450px;
+  margin-top: -450px;
+  filter: drop-shadow(0 26px 28px rgba(0,0,0,0.42));
+  z-index: 1;
+}
+
+.bola {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 720px;
+  margin-left: -360px;
+  margin-top: -360px;
+  border: 0px solid yellow;
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.5));
+  z-index: 2;
+}
+
+.pocketRing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 900px;
+  height: 900px;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.pocket {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(255, 204, 89, 0.9);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.18);
+  color: black;
+  line-height: 1;
+}
+
+.pocket.red {
+  background: #ffffff;
+}
+
+.pocket.black {
+  background: #ffffff;
+}
+
+.pocket.green {
+  background: #ffffff;
+}
+
+.pocket.highest {
+  background: #d50000;
+  color: #ffffff;
 }
 
 @media (max-width: 1500px) {
